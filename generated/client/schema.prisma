@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../src/generated/prisma"
+  // output   = "./generated/client" 
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserList {
+  Citizen
+  Admin
+  Staff
+}
+
+enum statusList {
+  Pending
+  In_Progress
+  Resolved
+}
+
+// categories
+//     Garbage
+//     Water Leakage
+//     Streetlight
+//     Road Damage
+//     Electricity
+//     School Facility
+model Categories {
+  category_id   Int      @id @default(autoincrement())
+  category_name String
+  issue         Issues[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt()
+}
+
+model Users {
+  user_id   Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     Int
+  role      UserList @default(Citizen)
+  issue     Issues[]
+  password  String   @db.VarChar(200)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+model Issues {
+  issue_id    Int           @id @default(autoincrement())
+  title       String        @db.VarChar(100)
+  description String        @db.Text
+  categoryId  Int
+  category    Categories    @relation(fields: [categoryId], references: [category_id])
+  userId      Int
+  user        Users         @relation(fields: [userId], references: [user_id])
+  locations   Locations[]
+  attachments Attachments[]
+  status      statusList    @default(Pending)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt()
+}
+
+model Locations {
+  location_id Int      @id @default(autoincrement())
+  latitude    Float
+  longitude   Float
+  address     String
+  issueId     Int
+  issues      Issues   @relation(fields: [issueId], references: [issue_id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
+}
+
+model Attachments {
+  attachment_id Int      @id @default(autoincrement())
+  file_url      String
+  issueId       Int
+  issues        Issues   @relation(fields: [issueId], references: [issue_id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt()
+}
