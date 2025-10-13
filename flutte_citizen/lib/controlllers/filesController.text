@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class FileController extends GetxController{
+
+  var uploadFilePath = ''.obs;
+  Future <void> pickFiles() async{
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true,);
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      print(file.name);
+      print(file.bytes);
+      print(file.size);
+      print(file.extension);
+      uploadFilePath.value = file.path!;
+      print(file.path);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+}
