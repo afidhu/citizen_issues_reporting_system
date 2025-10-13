@@ -6,6 +6,9 @@ instll multer=>npm install multer @types/multer @types/node
 
 
 
+//location///;  https://www.google.com/maps?q=-6.764695,39.2130233
+
+
 
 ///////////////////////////////GIT
 
@@ -13,7 +16,7 @@ instll multer=>npm install multer @types/multer @types/node
 echo "# citizen_issues_reporting_system" >> README.md
 git init
 git add .
-git commit -m "first commit"
+git commit -m "first commit2"
 git branch -M main
 git remote add origin https://github.com/afidhu/citizen_issues_reporting_system.git
 git push -u origin main

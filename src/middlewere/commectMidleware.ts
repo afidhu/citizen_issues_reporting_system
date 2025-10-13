@@ -1,17 +1,17 @@
 import type { Request, Response, NextFunction } from "express";
 import { number, ZodError } from "zod";
-import { issueSchema } from "../schema/issues.schema.ts";
 import { prisma } from "../index.ts";
+import { commentSchema } from "../schema/comment.schema.ts";
 
 
-export const IssuesMiddleware = async (req: Request, resp: Response, next: NextFunction) => {
+export const CommentsMiddleware = async (req: Request, resp: Response, next: NextFunction) => {
     console.log(req.body)
 
     try {
 
-        const { userId, title, description, categoryId, } = issueSchema.parse(req.body)
+        const { userId,content,issuesId } = commentSchema.parse(req.body)
 
-        if (!userId || !title || !description || !categoryId) {
+        if (!userId || !content || !issuesId) {
             return resp.status(400).json({ msg: "Missing required fields" });
         }
 
@@ -25,9 +25,9 @@ export const IssuesMiddleware = async (req: Request, resp: Response, next: NextF
             return resp.status(400).json('UserId not exist')
         }
         else {
-            const checkExistcategoryId = await prisma.categories.findFirst({
+            const checkExistcategoryId = await prisma.issues.findFirst({
                 where: {
-                    category_id: Number(categoryId)
+                    issue_id: Number(issuesId)
                 }
             })
 
@@ -35,7 +35,7 @@ export const IssuesMiddleware = async (req: Request, resp: Response, next: NextF
                 return resp.status(400).json('category not exist')
             }
             else {
-                next(); // everything is valid
+                next(); 
             }
         }
 

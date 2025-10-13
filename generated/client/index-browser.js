@@ -167,6 +167,33 @@ exports.Prisma.AttachmentsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CommentsScalarFieldEnum = {
+  id: 'id',
+  issuesId: 'issuesId',
+  userId: 'userId',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AnnouncementsAttachmentsScalarFieldEnum = {
+  attachment_id: 'attachment_id',
+  file_url: 'file_url',
+  announcementId: 'announcementId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AnnouncementsScalarFieldEnum = {
+  announcement_id: 'announcement_id',
+  title: 'title',
+  content: 'content',
+  authorId: 'authorId',
+  categoryId: 'categoryId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -193,7 +220,10 @@ exports.Prisma.ModelName = {
   Users: 'Users',
   Issues: 'Issues',
   Locations: 'Locations',
-  Attachments: 'Attachments'
+  Attachments: 'Attachments',
+  Comments: 'Comments',
+  AnnouncementsAttachments: 'AnnouncementsAttachments',
+  Announcements: 'Announcements'
 };
 
 /**

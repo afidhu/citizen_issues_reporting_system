@@ -36,23 +36,26 @@ enum statusList {
 //     Electricity
 //     School Facility
 model Categories {
-  category_id   Int      @id @default(autoincrement())
+  category_id   Int             @id @default(autoincrement())
   category_name String
   issue         Issues[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt()
+  announcements Announcements[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt()
 }
 
 model Users {
-  user_id   Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  phone     Int
-  role      UserList @default(Citizen)
-  issue     Issues[]
-  password  String   @db.VarChar(200)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
+  user_id       Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  phone         Int
+  role          UserList        @default(Citizen)
+  issue         Issues[]
+  password      String          @db.VarChar(200)
+  comment       Comments[]
+  announcements Announcements[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt()
 }
 
 model Issues {
@@ -66,6 +69,7 @@ model Issues {
   locations   Locations[]
   attachments Attachments[]
   status      statusList    @default(Pending)
+  comment     Comments[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt()
 }
@@ -88,4 +92,39 @@ model Attachments {
   issues        Issues   @relation(fields: [issueId], references: [issue_id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt()
+}
+
+model Comments {
+  id        Int      @id @default(autoincrement())
+  issuesId  Int
+  issues    Issues   @relation(fields: [issuesId], references: [issue_id])
+  userId    Int
+  user      Users    @relation(fields: [userId], references: [user_id])
+  content   String   @db.Text()
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+////////anouncements
+
+model AnnouncementsAttachments {
+  attachment_id  Int           @id @default(autoincrement())
+  file_url       String
+  announcementId Int
+  announcements  Announcements @relation(fields: [announcementId], references: [announcement_id])
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt()
+}
+
+model Announcements {
+  announcement_id Int                        @id @default(autoincrement())
+  title           String                     @db.VarChar(100)
+  content         String                     @db.Text()
+  authorId        Int
+  categoryId      Int
+  category        Categories                 @relation(fields: [categoryId], references: [category_id])
+  author          Users                      @relation(fields: [authorId], references: [user_id])
+  attachments     AnnouncementsAttachments[]
+  createdAt       DateTime                   @default(now())
+  updatedAt       DateTime                   @updatedAt()
 }

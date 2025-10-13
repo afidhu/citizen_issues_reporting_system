@@ -1,7 +1,6 @@
 
 import type { Request, Response } from "express";
 import { prisma } from "../index.ts";
-import { table } from "console";
 
 
 export const addUserController = async (req: Request, resp: Response) => {
