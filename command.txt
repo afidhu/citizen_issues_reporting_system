@@ -16,7 +16,85 @@ instll multer=>npm install multer @types/multer @types/node
 echo "# citizen_issues_reporting_system" >> README.md
 git init
 git add .
-git commit -m "first commit add ui"
+git commit -m "first commit add add flutter ui2"
 git branch -M main
 git remote add origin https://github.com/afidhu/citizen_issues_reporting_system.git
 git push -u origin main
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////PRISMA
+
+export const AddIssuesController = async (req: Request, resp: Response) => {
+  try {
+    const { userId, title, description, categoryId, latitude, longitude } = req.body;
+
+    const postData = await prisma.$transaction(async (tx: any) => {
+
+      // 1️⃣ Create the issue
+      const addIssue = await tx.issues.create({
+        data: {
+          title,
+          description,
+          userId: parseInt(userId),
+          categoryId: parseInt(categoryId),
+        },
+      });
+
+      // 2️⃣ Create the location
+      const location = await tx.locations.create({
+        data: {
+          address: "03,33", // Or use req.body.address
+          latitude: parseFloat(latitude),
+          longitude: parseFloat(longitude),
+          issueId: addIssue.issue_id,
+        },
+        select: {
+          location_id: true,
+          address: true,
+          latitude: true,
+          longitude: true,
+        },
+      });
+
+      // 3️⃣ Optional: Create attachment
+      let attachment = null;
+      if (req.file) {
+        const fileUrl = `/uploads/${req.file.filename}`;
+        attachment = await tx.attachments.create({
+          data: {
+            file_url: fileUrl,
+            issueId: addIssue.issue_id,
+          },
+        });
+      }
+
+      // 4️⃣ Combine all 3 into a single object
+      const combinedObject: any = {
+        ...addIssue,
+        ...location,
+      };
+
+      if (attachment) {
+        combinedObject.attachment = attachment;
+      }
+
+      // 5️⃣ Return as a single-element array
+      return [combinedObject];
+    });
+
+    return resp.status(201).json(postData);
+
+  } catch (error: any) {
+    console.error(error);
+    return resp.status(500).json({ msg: "internal error", errors: error.message });
+  }
+};
