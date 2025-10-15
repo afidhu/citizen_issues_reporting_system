@@ -30,11 +30,7 @@ export const addCategoryIssuesController = async (req: Request, resp: Response) 
 export const getAllCategoryIssuesController = async (req: Request, resp: Response) => {
     
     try {
-        const result = await prisma.categories.findMany({
-            include:{
-              issue: true
-            }
-        })
+        const result = await prisma.categories.findMany()
         if (result) {
             return resp.status(200).json(result)
         }

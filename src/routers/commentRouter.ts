@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { addComment } from "../controller/commentController.ts";
+import { addComment, getAllComments } from "../controller/commentController.ts";
 
 
 const router =Router()
 
 
 router.post('/',addComment)
+router.get('/',getAllComments)
 
 
 export default router

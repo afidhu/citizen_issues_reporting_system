@@ -2,16 +2,11 @@ import type { Response, Request } from "express"
 import { prisma } from "../index.ts"
 
 
-export const getAllComment =async(req:Request,resp:Response)=>{
+export const getAllComments =async(req:Request,resp:Response)=>{
     try {
-          const { userId,content,issuesId } = req.body
+        //   const { userId,content,issuesId } = req.body
 
-        const allcomment = await prisma.comments.findMany({
-            include:{
-                issues:true,
-                user:true
-            }
-        })
+        const allcomment = await prisma.comments.findMany()
         
         if(allcomment){
             return resp.status(200).json(allcomment)

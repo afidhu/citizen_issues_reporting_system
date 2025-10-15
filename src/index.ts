@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config(); 
 import issuessRouter from'./routers/issuesRouter.ts'
 import authRouter from'./routers/authRouter.ts'
-import commentRouter from'./routers/issuesRouter.ts'
+// import commentRouter from'./routers/issuesRouter.ts'
 // import { PrismaClient } from './generated/prisma/index';
 import { PrismaClient } from '../generated/client';
 import issuueCtgRouter from'./routers/issuueCtgRouter.ts'
@@ -12,6 +12,7 @@ import issuueCtgRouter from'./routers/issuueCtgRouter.ts'
 import multer from "multer";
 import path from "path";
 import announcementRouter from './routers/announcementRouter.ts';
+import commentRouter from './routers/commentRouter.ts';
 
 // const storage = multer.diskStorage({
 //   destination: (req, file, cb) => cb(null, "uploads/"),
@@ -33,6 +34,7 @@ app.use('/issues',issuessRouter)
 app.use('/auth',authRouter)
 app.use('/comment',commentRouter)
 app.use('/announcement-category',issuueCtgRouter)
+app.use('/category',issuueCtgRouter)
 app.use('/announcement',announcementRouter)
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
