@@ -6,7 +6,9 @@ instll multer=>npm install multer @types/multer @types/node
 
 
 
-//location///;  https://www.google.com/maps?q=-6.764695,39.2130233
+//location///;  https://www.google.com/maps?q=-6.7647326, 39.2138523
+
+6.7647326, Longitude: 39.2138523
 
 
 
@@ -16,7 +18,7 @@ instll multer=>npm install multer @types/multer @types/node
 echo "# citizen_issues_reporting_system" >> README.md
 git init
 git add .
-git commit -m "first commit add add flutter ui3"
+git commit -m "first commit add add flutter ui3 and google API"
 git branch -M main
 git remote add origin https://github.com/afidhu/citizen_issues_reporting_system.git
 git push -u origin main
@@ -98,3 +100,15 @@ export const AddIssuesController = async (req: Request, resp: Response) => {
     return resp.status(500).json({ msg: "internal error", errors: error.message });
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
