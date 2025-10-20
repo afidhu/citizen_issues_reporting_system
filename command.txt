@@ -18,7 +18,7 @@ instll multer=>npm install multer @types/multer @types/node
 echo "# citizen_issues_reporting_system" >> README.md
 git init
 git add .
-git commit -m "first commit add add flutter ui3 and google API video edit"
+git commit -m "first commit add add flutter ui3 and google API video edit1"
 git branch -M main
 git remote add origin https://github.com/afidhu/citizen_issues_reporting_system.git
 git push -u origin main
